@@ -4,48 +4,49 @@ import java.util.*;
 
 public class Basket {
 
-    private List<Book> items;
-    private Map<Integer, Float> discounts = new HashMap<Integer, Float>(){{
-      put(1, 1f);
-      put(2, .95f);
-      put(3, .9f);
-      put(4, .8f);
-      put(5, .75f);
-    }};
+	private List<Book> items;
+	private Map<Integer, Float> discounts = new HashMap<Integer, Float>() {
+		{
+			put(1, 1f);
+			put(2, .95f);
+			put(3, .9f);
+			put(4, .8f);
+			put(5, .75f);
+		}
+	};
 
-    public Basket(List<Book> items) {
-        this.items = items;
-    }
+	public Basket(List<Book> items) {
+		this.items = items;
+	}
 
-    public float total() {
-       List<Set<Book>> differentSets = splitInDifferentSets();
-       return totalAllSets(differentSets);
-    }
+	public float total() {
+		List<Set<Book>> differentSets = splitInDifferentSets();
+		return totalForAllSets(differentSets);
+	}
 
-	private float totalAllSets(List<Set<Book>> differentSets) {
+	private float totalForAllSets(List<Set<Book>> differentSets) {
 		float total = 0;
 		for (Set<Book> set : differentSets) {
-		   total += totalFor(set);
+			total += totalFor(set);
 		}
 		return total;
 	}
 
-
-    private float totalFor(Set<Book> set) {
-		return discountFor(set.size()) * 8f * set.size();		
+	private float totalFor(Set<Book> set) {
+		return discountFor(set.size()) * 8f * set.size();
 	}
 
 	private List<Set<Book>> splitInDifferentSets() {
-    	List<Set<Book>> allSequences = new ArrayList<Set<Book>>();
-    	List<Book> itemsCopy = new ArrayList<Book>(items);
-    	
-    	while(!itemsCopy.isEmpty()){
-    		Set<Book> sequence = assembleSequence(itemsCopy);
+		List<Set<Book>> allSequences = new ArrayList<Set<Book>>();
+		List<Book> itemsCopy = new ArrayList<Book>(items);
+
+		while (!itemsCopy.isEmpty()) {
+			Set<Book> sequence = assembleSequence(itemsCopy);
 			allSequences.add(sequence);
 			clean(itemsCopy, sequence);
-    	}
-    	
-    	return allSequences;		
+		}
+
+		return allSequences;
 	}
 
 	private void clean(List<Book> itemsCopy, Set<Book> sequence) {
@@ -63,7 +64,7 @@ public class Basket {
 	}
 
 	private float discountFor(int size) {
-        return discounts.get(size);
-    }
+		return discounts.get(size);
+	}
 
 }
